@@ -24,12 +24,12 @@ export const Copyright: FC<CopyrightProperties> = ({ holder, year }) => {
         className="hover:underline focus:underline"
       >
         {holder.name}, {holder.url}
-      </a>{' '}
+      </a>
     </>
   );
 
   return (
-    <p>
+    <p className="mt-10">
       Copyright © {isPastYear ? `${year}-${currentYear}` : currentYear}{' '}
       {holder.url ? nameWithUrl : holder.name}
       {` <`}

@@ -1,4 +1,5 @@
 import { FC, ReactElement } from 'react';
+import { GoLaw } from 'react-icons/go';
 import {
   CC0License,
   Copyright,
@@ -50,13 +51,15 @@ export const License: FC<LicenseProperties> = ({
 
   return (
     <article className="m-auto max-w-3xl p-8 bg-slate-700/20 rounded-xl">
-      <header>
-        <h1 className="text-7xl font-extrabold mb-6">{licenses[type].title}</h1>
+      <header className="flex flex-col items-center mb-10">
+        <GoLaw size={48} />
+
+        <h1 className="text-5xl font-extrabold">{licenses[type].title}</h1>
 
         {canShowCopyright(type) ? <Copyright {...copyrightProperties} /> : null}
       </header>
 
-      <main className="mt-6 flex flex-col gap-2">
+      <main className="flex flex-col gap-2 text-justify">
         {licenses[type].component}
       </main>
     </article>
