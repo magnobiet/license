@@ -7,8 +7,8 @@ export default function LicenseWithYearPage({ params }: LicensePageParameters) {
   return (
     <License
       type={params.license as LicenseEnum}
-      year={Number(params.year)}
       holder={defaultHolder}
+      year={Number(params.year)}
     />
   );
 }

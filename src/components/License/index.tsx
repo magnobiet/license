@@ -7,57 +7,55 @@ import {
   MITLicense,
 } from '~/components';
 import { License as LicenseEnum } from '~/enums';
+import { GenericKeys } from '~/types';
+import { getLicenseTitle, isValidLicense } from '~/utililies';
 
 type LicenseProperties = {
   type: LicenseEnum;
 } & CopyrightProperties;
 
+const canShowCopyright = (type: LicenseEnum) => {
+  return type !== LicenseEnum.CC0.toLowerCase();
+};
+
 export const License: FC<LicenseProperties> = ({
   type,
   ...copyrightProperties
 }) => {
-  const licenses: {
-    [key: string]: {
-      title: ReactElement;
-      component: ReactElement;
-    };
-  } = {
+  const licenses: GenericKeys<{
+    title: string;
+    component: ReactElement;
+  }> = {
     mit: {
-      title: (
-        <>
-          The MIT License <span className="block">(MIT)</span>
-        </>
-      ),
+      title: getLicenseTitle('mit'),
       component: <MITLicense />,
     },
     isc: {
-      title: (
-        <>
-          <span className="block">(ISC)</span>
-        </>
-      ),
-
+      title: getLicenseTitle('isc'),
       component: <ISCLicense />,
     },
     cc0: {
-      title: (
-        <>
-          CC0 1.0 Universal <span className="block">(CC0 1.0)</span>
-        </>
-      ),
+      title: getLicenseTitle('cc0'),
       component: <CC0License />,
     },
   };
+
+  if (!isValidLicense(type)) {
+    return (
+      <article className="m-auto max-w-3xl p-8 bg-slate-700/20 rounded-xl">
+        <h1 className="text-5xl font-extrabold">License not found</h1>
+      </article>
+    );
+  }
 
   return (
     <article className="m-auto max-w-3xl p-8 bg-slate-700/20 rounded-xl">
       <header>
         <h1 className="text-7xl font-extrabold mb-6">{licenses[type].title}</h1>
 
-        {type !== LicenseEnum.CC0.toLowerCase() ? (
-          <Copyright {...copyrightProperties} />
-        ) : null}
+        {canShowCopyright(type) ? <Copyright {...copyrightProperties} /> : null}
       </header>
+
       <main className="mt-6 flex flex-col gap-2">
         {licenses[type].component}
       </main>
